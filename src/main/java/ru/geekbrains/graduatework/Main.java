@@ -2,6 +2,8 @@ package ru.geekbrains.graduatework;
 
 import ru.geekbrains.graduatework.dao.*;
 import ru.geekbrains.graduatework.models.*;
+import ru.geekbrains.graduatework.services.*;
+import ru.geekbrains.graduatework.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,116 +12,133 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-//        HibernateConnectionUtil connectorUtil = new HibernateConnectionUtil();
-//        try (Session session = connectorUtil.getSession()) {
-//            String id = "1.2024";
-//            Query query = session.createQuery("FROM Certificate where registrationNumber =:registrationNumber", Certificate.class);
-//            query.setParameter("registrationNumber", id);
-//            List certificates = query.getResultList();
-//            for (Object certificate: certificates) {
-//                System.out.println(certificate.toString());
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        LocalDate date = LocalDate.of(2014, 3, 19);
-        Container container = new Container();
-        ContentType contentType = new ContentType();
-        ReviewStatus reviewStatus = new ReviewStatus();
 
+// Для запуска необходимо раскомментировать нужны метод
 
-        Certificate certificate = new Certificate("10.2024", "61/01-2024", LocalDate.of(2014, 3, 19), new Container(2,"BU77"), new ContentType(2,"ОГ2"), new ReviewStatus(2, "На рассмотрении в подразделении"), new Organisation(7, "ОАО ГСМ"), "ЭЗ-45-1");
-        Container container1 = new Container(11, "BU137");
-        CertificateDAO certificateDAO = new CertificateDAO();
-        ContainerDAO containerDAO = new ContainerDAO();
-        ContentTypeDAO contentTypeDAO = new ContentTypeDAO();
-        OrganisationDAO  organisationDAO = new OrganisationDAO();
-        RefusalReasonDAO refusalReasonDAO = new RefusalReasonDAO();
-        ReviewStatusDAO reviewStatusDAO = new ReviewStatusDAO();
-        OrganisationTypeDAO organisationTypeDAO = new OrganisationTypeDAO();
+//       _____________________СЕРТИФИКАТЫ___________________
 
-        Organisation organisation = new Organisation(13, "Тру-ту-ту", "Курск", "11110000222", new OrganisationType(1,"expert"));
-        RefusalReason reason = new RefusalReason(7,"Фигня полная");
-//        ReviewStatus status = new ReviewStatus(reviewStatusDAO.getCount()+1, "Поступило на повторное рассмотрение");
-        OrganisationType organisationType = new OrganisationType(3,"заявитель");
+        CertificateService sertService = new CertificateService();
+        List<Certificate> certificates = new ArrayList<>();
 
-//       ____________СЕРТИФИКАТЫ___________________
-//        certificateDAO.getById("1.2022");
-//        certificateDAO.getAll();
-//        certificateDAO.getCount();
-//        certificateDAO.save(certificate);
-//        certificateDAO.deleteByID("10.2024");
-//        certificateDAO.update();
+//        sertService.getById("1.2024");
+//        sertService.getAll();
 
-//        List<Certificate> certificates;
-//        certificates =  certificateDAO.getActivCertificate();
+//        sertService.getCount();
+
+//        Certificate certificate = new Certificate("15.2024", "89/03-2024", LocalDate.of(2024, 4, 5), new Container(10,"Package30"), new ContentType(4,"ОГ4"),"шлаки производства", new ReviewStatus(2, "На рассмотрении в подразделении"), new Organisation(10, "ООО Перевозка"), "5327-ЭЗ");
+//        sertService.save(certificate);
+
+//        sertService.update();
+
+//        sertService.deleteByID("17.2024");
+
+//        certificates = sertService.getActivCertificate();
 //        certificates.forEach(System.out::println);
-//        certificateDAO.getCountOfActivCertificate();
 
-//         List<Certificate> certificates;
-//        certificates =  certificateDAO.getIssueCertificatesForPeriod(LocalDate.of(2022, 12,31), LocalDate.of(2024, 01,01));
-//            certificateDAO.getCountOfIssueCertificatesForPeriod(LocalDate.of(2022, 12,31), LocalDate.of(2024, 01,01));
-//        certificateDAO.getCertificatesForSpecificContainer();
-//        certificateDAO.getCountOfCertificatesForSpecificContainer();
-//        certificateDAO.getCertificatesForSpecificOrganisation();
-//        certificateDAO.getCountCertificatesForSpecificOrganisation();
-//        certificateDAO.getRefusalForPeriod(LocalDate.of(2022, 12,31), LocalDate.of(2024, 01,01));
-//        certificateDAO.getRefusalForPeriod(LocalDate.of(2022, 12,31), LocalDate.of(2024, 01,01));
-        certificateDAO.getCountOfRefusalForPeriod(LocalDate.of(2022, 12,31), LocalDate.of(2024, 01,01));
+//        sertService.getCountOfActivCertificate();
+
+//        certificates = sertService.getIssueCertificatesForPeriod(LocalDate.of(2022, 12,31), LocalDate.of(2024, 01,01));
+//        certificates.forEach(System.out::println);
+
+//        sertService.getCountOfIssueCertificatesForPeriod(LocalDate.of(2022, 12,31), LocalDate.of(2024, 01,01));
+
+//        certificates = sertService.getCertificatesForSpecificContainer();
+//        certificates.forEach(System.out::println);
+
+//        sertService.getCountOfCertificatesForSpecificContainer();
+
+//        certificates = sertService.getCertificatesForSpecificOrganisation();
+//        certificates.forEach(System.out::println);
+
+//        sertService.getCountCertificatesForSpecificOrganisation();
+
+//        certificates = sertService.getAllRefusal();
+//        certificates.forEach(System.out::println);
+//
+//        sertService.getCountOfAllRefusal();
+//
+//        certificates = sertService.getRefusalForPeriod(LocalDate.of(2022, 12,31), LocalDate.of(2024, 01,01));
+//        certificates.forEach(System.out::println);
+
+//        sertService.getCountOfRefusalForPeriod(LocalDate.of(2022, 12,31), LocalDate.of(2024, 01,01));
+
+//        sertService.deadlinesMonitoring();
 
 
 
+//______________________________КОНТЕЙНЕРЫ___________________
 
-//____________________Контейнеры___________________
-//        containerDAO.getById(10);
-//        containerDAO.getAll();
-//        containerDAO.getCount();
-//        containerDAO.save(container1);
-//        containerDAO.deleteByID(11);
-//        containerDAO.update();
-//        containerDAO.deleteByID(11);
+        ContainerService contService = new ContainerService();
+        Container container = new Container(11, "УКТОГ-21");
 
-//____________________Тип содержимого___________________
-//        TODO: ВЫБРАСЫВАЕТ ИСКЛЮЧЕНИЕ. РАЗОБРАТЬСЯ !!!!
-//        contentTypeDAO.getById(10);
-//        contentTypeDAO.getAll();
-//        contentTypeDAO.getCount();
-//        contentTypeDAO.save(container1);
-//        contentTypeDAO.deleteByID(10);
-//        contentTypeDAO.update();
-//        contentTypeDAO.deleteByID(11);
+//        contService.getById(7);
+//        contService.getAll();
+//        contService.getCount();
+//        contService.save(container);
+//        contService.deleteByID(11);
+//        contService.update();
 
-//        ____________________Организации__________________
-//        organisationDAO.getById(10);
-//        organisationDAO.getAll();
-//        organisationDAO.getCount();
-//        organisationDAO.save(organisation);
-//        organisationDAO.deleteByID(13);
-//        organisationDAO.update();
 
-//        ____________________Причина отказа__________________
-//        refusalReasonDAO.getById(8);
-//        refusalReasonDAO.getAll();
-//        refusalReasonDAO.getCount();
-//        refusalReasonDAO.save(reason);
-//        refusalReasonDAO.deleteByID(7);
-//        refusalReasonDAO.update();
+//_____________________________ТИП СОДЕРЖИМОГО___________________
+//
+        ContentTypeService contentService = new ContentTypeService();
+        ContentType contentType = new ContentType(11,"ОГ11");
 
-//        ____________________Статус рассмотрения__________________
-//        reviewStatusDAO.getById(8);
-//        reviewStatusDAO.getAll();
-//        reviewStatusDAO.getCount();
-//        reviewStatusDAO.save(status);
-//        reviewStatusDAO.deleteByID(9);
-//        reviewStatusDAO.update();
+        contentService.getById(1);
+//        contentService.getAll();
+//        contentService.getCount();
+//        contentService.save(content);
+//        contentService.deleteByID(10);
+//        contentService.update();
+//
 
-//        ____________________Тип организации__________________
-//        organisationTypeDAO.getById(4);
-//        organisationTypeDAO.getAll();
-//        organisationTypeDAO.getCount();
-//        organisationTypeDAO.save(organisationType);
-//        organisationTypeDAO.deleteByID(4);
-//        organisationTypeDAO.update();
+//        ________________________ОРГАНИЗАЦИИ__________________
+
+        OrganisationService orgService = new OrganisationService();
+        Organisation organisation = new Organisation(13, "Тру-ту-ту", "Курск", "11110000222", new OrganisationType(1,"expert"));
+
+//        orgService.getById(10);
+//        orgService.getAll();
+//        orgService.getCount();
+//        orgService.save(organisation);
+//        orgService.deleteByID(13);
+//        orgService.update();
+
+//        ____________________ПРИЧИНЫ ОТКАЗА__________________
+
+        RefusalReasonService refService = new RefusalReasonService();
+        RefusalReason reason = new RefusalReason("п.3 АР");
+
+//        refService.getById(6);
+//        refService.getAll();
+//        refService.getCount();
+//        refService.save(reason);
+//        refService.deleteByID(13);
+//        refService.update();
+
+//        ____________________СТАТУС РАССМОТРЕНИЯ__________________
+
+        ReviewStatusService revService = new ReviewStatusService();
+        ReviewStatus status = new ReviewStatus(9,"Потеряно");
+
+//        revService.getById(7);
+//        revService.getAll();
+//        revService.getCount();
+//        revService.save(status);
+//        revService.deleteByID(9);
+//        revService.update();
+
+//        ____________________ТИП ОРГАНИЗАЦИИ__________________
+
+        OrganisationTypeService orgTypeService = new OrganisationTypeService();
+        OrganisationType organisationType = new OrganisationType(3, "уполномоченный представитель");
+
+//        orgTypeService.getById(5);
+//        orgTypeService.getAll();
+//        orgTypeService.getCount();
+//        orgTypeService.save(organisationType);
+//        orgTypeService.deleteByID(3);
+//        orgTypeService.update();
     }
 }
 

@@ -7,19 +7,34 @@ import javax.persistence.Query;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Абстрактный класс AbstractEntityDAO с двумя обобщенными параметрами. T - тип объекта, Х - тип id объекта
+ * Имеет поля <b>clazz</b> и <b>connectorUtil</b>
+ * @author Maria Krutikova
+ * @version 1
+ * */
 public abstract class AbstractEntityDAO<T,X> {
 
     private final Class<T> clazz;
     private static HibernateConnectionUtil connectorUtil = new HibernateConnectionUtil();
+
+    /**
+     * Конструктор - создания объета с обобщенным параметром
+     * */
     public AbstractEntityDAO(final Class<T> clazzToSet) {
         this.clazz = clazzToSet;
     }
 
-    //Получить объект по его id
+    /**
+     * Обобщенный метод получения объекта по его  ID
+     * @param id объекта. Х - обощенный параметра обозначающий тип id
+     * @return объект класса T
+     * */
     public T getById(X id) {
         try (Session session = connectorUtil.getSession()) {
             T obj = session.get(clazz, (Serializable) id);
-            System.out.println(obj);
+            if (obj == null) System.out.println("Записи с таким ID нет в таблице");
+            else System.out.println(obj);
             return  obj;
         } catch (Exception e) {
             e.printStackTrace();
@@ -27,15 +42,10 @@ public abstract class AbstractEntityDAO<T,X> {
         return null;
     }
 
-//    //Получить список объектов по заданному диапазону
-//        public List<T> getItems(int from, int count) {
-//            Query query = getCurrentSession().createQuery(clazz , "from " + clazz.getName());
-//            query.setFirstResult(offset);
-//            query.setMaxResults(count);
-//            return (List<T>) query.getSingleResult();
-//        }
-
-    //Получить все объекты данного типа
+    /**
+     * Обобщенный метод получения всех объектов класса Т
+     * @return список объектов класса T
+     * */
     public List<T> getAll() {
         try (Session session = connectorUtil.getSession()) {
             Query query = session.createQuery("FROM " + clazz.getName(), clazz);
@@ -43,18 +53,22 @@ public abstract class AbstractEntityDAO<T,X> {
             for (Object obj : objs) {
                 System.out.println(obj.toString());
             }
+            return objs;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    //Узнать количество объектов
+    /**
+     * Метод получения количества всех объектов класса Т
+     * @return количество объектов класса T
+     * */
     public int getCount() {
         try (Session session = connectorUtil.getSession()) {
-            System.out.println(clazz.getName());
+//            System.out.println(clazz.getName());
             Query query = session.createQuery("SELECT COUNT(*) FROM " + clazz.getName());
-            System.out.println(query);
+//            System.out.println(query);
             Long count = (Long) query.getSingleResult();
             int totalCount = count.intValue();
             System.out.println(count);
@@ -65,7 +79,9 @@ public abstract class AbstractEntityDAO<T,X> {
         return 0;
     }
 
-    //Добавить объект в базу
+    /**
+     * Метод добавления объекта класса Т в соответствующую таблицу базы данных
+     * */
     public void save(final T entity) {
         try (Session session = connectorUtil.getSession()) {
             session.beginTransaction();
@@ -75,31 +91,31 @@ public abstract class AbstractEntityDAO<T,X> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("Новая запись добавлена в таблицу");
     }
 
-    //Обновить объект по id в базе
+    /**
+     * Абстрактный метод изменения объекта класса Т
+     * */
     abstract void update();
-//        try (Session session = connectorUtil.getSession()) {
-//            T obj = session.get(clazz, (Serializable) id);
-//            System.out.println(obj);
-//            obj.
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
 
-    //    Удалить объект по id из базы
+    /**
+     * Метод удаления объекта класса Т по id
+     * */
     public void deleteByID(X id) {
         try (Session session = connectorUtil.getSession()) {
             session.beginTransaction();
             T obj = session.get(clazz, (Serializable) id);
-            System.out.println(obj);
-            session.delete(obj);
-            session.getTransaction().commit();
-            session.close();
+            if (obj == null) System.out.println("Записи с таким ID нет в таблице");
+            else {
+                session.delete(obj);
+                session.getTransaction().commit();
+                session.close();
+                System.out.println("Запись удалена из таблицы");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }

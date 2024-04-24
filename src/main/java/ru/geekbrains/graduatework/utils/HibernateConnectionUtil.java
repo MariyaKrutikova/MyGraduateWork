@@ -7,16 +7,16 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 /**
  * Utility class that has one method getSession() for create
- * session factory for application to work with the database. *
+ * session factory for application to work with the database.
  *  */
 
 public class HibernateConnectionUtil {
-    final StandardServiceRegistry registry;
+    final StandardServiceRegistry REGISTRY;
     SessionFactory sessionFactory;
 
     public HibernateConnectionUtil() {
-        registry = new StandardServiceRegistryBuilder().configure().build();
-        sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+        REGISTRY = new StandardServiceRegistryBuilder().configure().build();
+        sessionFactory = new MetadataSources(REGISTRY).buildMetadata().buildSessionFactory();
     }
     /**
      * Method for open session factory
